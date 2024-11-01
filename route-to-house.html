@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Route</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="route-content">
+        <div class="description-block">
+            <h2>Hospital</h2>
+            <p>This route will guide you to the nearest hospital. Please follow the instructions carefully to reach your destination safely.</p>
+            <!-- Hospital Image -->
+            <img src="images/house.jpg" alt="Hospital" class="description-img">
+        </div>
+        <!-- Right side: Route navigation -->
+        <div class="route-map">
+            <img id="routeImage" src="images/img1.jpg" alt="Route Image">
+            <div class="navigation-buttons">
+                <button onclick="previousImage()">Previous</button>
+                <button onclick="nextImage()">Next</button>
+                <button onclick="goHome()">Home</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const images = ["images/img1.jpg", "images/img2.jpg", "images/img3.jpg", "images/img4.jpg","images/img5.jpg"]; // Up to hospital only
+        let currentImageIndex = 0;
+
+        function updateImage() {
+            const routeImage = document.getElementById("routeImage");
+            routeImage.src = images[currentImageIndex];
+        }
+
+        function nextImage() {
+            if (currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                updateImage();
+            }
+        }
+
+        function previousImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateImage();
+            }
+        }
+
+        function goHome() {
+            window.location.href = 'routes.html';
+        }
+    </script>
+</body>
+</html>
