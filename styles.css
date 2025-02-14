@@ -1,0 +1,107 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(
+        0deg,
+        rgb(36, 141, 29) 0%,
+        rgb(17, 51, 161) 60%
+    );
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#game {
+    display: block;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+    border: 2px solid white;
+    margin-top: 10px;
+}
+
+.search-container {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.search-box {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.category-filters {
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+}
+
+.category-button[data-type="road"] {
+    background-color: lightgray;
+}
+
+.category-button[data-type="track"] {
+    background-color: darkgray;
+}
+
+.category-button[data-type="building"] {
+    background-color: darkblue;
+    color: white;
+}
+
+.category-button[data-type="water"] {
+    background-color: lightblue;
+}
+
+.category-button[data-type="ground"] {
+    background-color: brown;
+    color: white;
+}
+
+.category-button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.category-button:hover {
+    opacity: 0.8;
+}
+
+.navigation-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.nav-button {
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: lightgray;
+}
