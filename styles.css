@@ -83,20 +83,82 @@ img {
     object-fit: cover;
 }
 /* Search and filter buttons */
+/* Style for the top-bar */
 .top-bar {
     display: flex;
-    justify-content: center;
     gap: 10px;
+    justify-content: center;
     margin-bottom: 10px;
 }
+
+/* General button styling */
 .filter-button {
-    padding: 5px 15px;
     border: none;
-    cursor: pointer;
+    padding: 10px 15px;
     font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
     border-radius: 5px;
+}
+
+/* Button colors matching map colors */
+.road { background-color: #d3d3d3; }  /* Light Gray */
+.track { background-color: #4d4d4d; } /* Dark Gray */
+.building { background-color: #1e3e67; } /* Dark Blue */
+.water { background-color: #4da6ff; } /* Light Blue */
+
+/* Hover effect */
+.filter-button:hover {
+    opacity: 0.8;
 }
 .selected {
     background-color: #4CAF50;
     color: white;
+}
+
+/* Style for the details panel */
+.details-panel {
+    border-left: 2px solid #ccc;
+    background-color: #f9f9f9;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: top; /* Center everything vertically */
+    align-items: center;
+    position: relative;
+}
+
+/* Center movement buttons on the right side */
+.movement-controls {
+    position: absolute;
+    right: 15%;  /* Adjust spacing from the right */
+    top: 70%;
+    transform: translateY(-50%);  /* Center vertically */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Row for left/right buttons */
+.movement-controls .row {
+    display: flex;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+/* Styling for movement buttons */
+.movement-controls button {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    border: 2px solid #333;
+    background-color: #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.movement-controls button:hover {
+    background-color: #ccc;
 }
