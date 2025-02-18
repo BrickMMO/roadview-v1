@@ -3,39 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrickMMO Map</title>
+    <title>BrickMMO City Map</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-      h1 {
-        color: lightgrey;
-        text-align: center;
-      }
-      #game {
-        box-shadow: 10px 10px 15px black;
-      }
-      body {
-        display: flex;
-        justify-content: center;
-        height: 100vh;
-        background: linear-gradient(
-          0deg,
-          rgb(36, 141, 29) 0%,
-          rgb(17, 51, 161) 60%
-        );
-      }
-    </style>
 </head>
 <body>
-  <h1>LEGO map</h1>
-    <div class="category-filters">
-        <button class="category-button" data-type="road">Road</button>
-        <button class="category-button" data-type="track">Track</button>
-        <button class="category-button" data-type="building">Buildings</button>
-        <button class="category-button" data-type="water">Water</button>
+
+    <!-- Map Container -->
+    <div class="map-container">
+        <div class="top-bar">
+            <button class="filter-button" onclick="filterGrid('road')">Road</button>
+            <button class="filter-button" onclick="filterGrid('track')">Track</button>
+            <button class="filter-button" onclick="filterGrid('building')">Buildings</button>
+            <button class="filter-button" onclick="filterGrid('water')">Water</button>
+        </div>
+        <table id="map-grid"></table>
     </div>
-      <canvas id="game"></canvas>
+
+    <!-- Details Panel -->
+    <div class="details-panel" id="details-panel">
+        <h2>Click on a Building, Road, or Track</h2>
+        <p id="details-text"></p>
+        <img id="details-image" style="display:none;">
     </div>
-    <script src="game.js" type="module"></script>
+
+    <script src="map.js"></script>
+
 </body>
 </html>
-
