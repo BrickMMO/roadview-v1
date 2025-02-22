@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Route</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Popup styling */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border: 2px solid #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        /* Overlay styling for background dimming */
+        .overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Button styling inside the popup */
+        .popup button {
+            margin-top: 10px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <main class="route-content">
+        <div class="description-block">
+            <h2>Hospital</h2>
+            <p>This route will guide you to the school. Please follow the instructions carefully to reach your destination safely.</p>
+            <!-- Hospital Image -->
+            <img src="images/school.png" alt="Hospital" class="description-img">
+        </div>
+        <!-- Right side: Route navigation -->
+        <div class="route-map">
+            <img id="routeImage" src="images/img1.jpg" alt="Route Image">
+            <div class="navigation-buttons">
+                <button onclick="previousImage()">Previous</button>
+                <button onclick="nextImage()">Next</button>
+                <button onclick="goHome()">Home</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Popup and overlay for destination message -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="destinationPopup">
+        <p>You have reached the school. Turn right for entry.</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+
+    <!-- Audio for the destination message -->
+    <audio id="destinationSound" src="images/voice.mp3" preload="auto"></audio>
+
+    <script>
+        const images = ["images/img1.jpg", "images/img2.jpg", "images/img3.jpg", "images/img4.jpg"]; 
+        let currentImageIndex = 0;
+
+        function updateImage() {
+            const routeImage = document.getElementById("routeImage");
+            routeImage.src = images[currentImageIndex];
+        }
+
+        function nextImage() {
+            if (currentImageIndex < images.length - 1) {
+                currentImageIndex++;
+                updateImage();
+            }
+
+            // Show popup and play sound if last image is reached
+            if (currentImageIndex === images.length - 1) {
+                showPopup();
+                playSound();
+            }
+        }
+
+        function previousImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateImage();
+            }
+        }
+
+        function goHome() {
+            window.location.href = 'routes.html';
+        }
+
+        // Function to show the popup
+        function showPopup() {
+            document.getElementById("destinationPopup").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById("destinationPopup").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        // Function to play the sound
+        function playSound() {
+            const sound = document.getElementById("destinationSound");
+            sound.play();
+        }
+    </script>
+</body>
+</html>
