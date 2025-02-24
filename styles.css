@@ -78,8 +78,8 @@ td {
     cursor: pointer;
 }
 img {
-    width: 25px;
-    height: 25px;
+    width: 50px;
+    height: 300px;
     object-fit: cover;
 }
 /* Search and filter buttons */
@@ -134,7 +134,7 @@ img {
 .movement-controls {
     position: absolute;
     right: 15%;  /* Adjust spacing from the right */
-    top: 70%;
+    top: 75%;
     transform: translateY(-50%);  /* Center vertically */
     display: flex;
     flex-direction: column;

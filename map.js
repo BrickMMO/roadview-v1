@@ -59,6 +59,7 @@ async function generateGrid() {
                     let entityType = null;
                     let entityData = null;
                     let isWalkable = false;
+                    let imageURL = null;
 
                     if (square.type === "water") {
                         color = colorMap["water"];
@@ -67,16 +68,19 @@ async function generateGrid() {
                             color = colorMap["building"];
                             entityType = "Building";
                             entityData = square.building;
+                            // imageURL = square.building.image;
                             isWalkable = true;
                         } else if (square.road) {
                             color = colorMap["road"];
                             entityType = "Road";
                             entityData = square.road;
+                            // imageURL = square.road.image;
                             isWalkable = true;
                         } else if (square.track) {
                             color = colorMap["track"];
                             entityType = "Track";
                             entityData = square.track;
+                            // imageURL = square.track.image;
                             isWalkable = true;
                         }
                     }
@@ -86,6 +90,15 @@ async function generateGrid() {
                     cell.dataset.y = y;
                     cell.dataset.walkable = isWalkable;
                     cell.dataset.square = JSON.stringify(square);
+
+                    // If there's a valid image, add it inside the cell
+                    if (imageURL) {
+                        let img = document.createElement("img");
+                        img.src = imageURL;
+                        img.alt = entityType;
+                        img.classList.add("grid-image");
+                        cell.appendChild(img);
+                    }
 
                     cell.addEventListener("click", function () {
                         if (isWalkable) {
@@ -120,6 +133,7 @@ async function generateGrid() {
 // Function to update the details panel
 function updateDetailsPanel(type, data) {
     const detailsText = document.getElementById("details-text");
+    const detailsImg = document.getElementById("details-image");
 
     let detailsHTML = `<h2>${type} Details</h2>`;
 
@@ -136,6 +150,12 @@ function updateDetailsPanel(type, data) {
     }
 
     detailsText.innerHTML = detailsHTML;
+    if (data.image) {
+        detailsImg.src = data.image;
+        detailsImg.style.display = "block";
+    } else {
+        detailsImg.style.display = "none";
+    }
 }
 
 // Function to move in a direction
