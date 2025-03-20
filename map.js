@@ -7,7 +7,7 @@ const apiUrl = "http://local.api.brickmmo.com:7777/map/square/city_id/1";
 let currentLocation = null;
 let currentX = 0;
 let currentY = 0;
-let currentDirection = "up"; // Default direction
+let direction = "up"; // Default direction
 let gridData = [];
 
 const colorMap = {
@@ -60,27 +60,28 @@ async function generateGrid() {
                     let entityData = null;
                     let isWalkable = false;
                     let imageURL = null;
+                    let entityXY = null;
 
                     if (square.type === "water") {
                         color = colorMap["water"];
                     } else if (square.type === "ground") {
-                        if (square.building_id && square.building_id !== "0" && square.building) {
+                        if (square.building) {
                             color = colorMap["building"];
                             entityType = "Building";
                             entityData = square.building;
-                            // imageURL = square.building.image;
                             isWalkable = true;
-                        } else if (square.road) {
+                        } else if (square.roads != 0) {
                             color = colorMap["road"];
                             entityType = "Road";
-                            entityData = square.road;
-                            // imageURL = square.road.image;
+                            entityData = square.road_names;
+                            entityXY = square;
                             isWalkable = true;
-                        } else if (square.track) {
+                        } else if (square.tracks != 0) {
                             color = colorMap["track"];
                             entityType = "Track";
-                            entityData = square.track;
-                            // imageURL = square.track.image;
+                            entityData = square.track_names;
+                            entityXY = square;
+                            // console.log(square);
                             isWalkable = true;
                         }
                     }
@@ -100,16 +101,20 @@ async function generateGrid() {
                         cell.appendChild(img);
                     }
 
-                    cell.addEventListener("click", function () {
+                    cell.addEventListener("click", async function () {
                         if (isWalkable) {
                             updateHighlightedCell(cell, "up"); // Default direction when clicked
                             currentX = x;
                             currentY = y;
-
+                            
+                            let imageUrl = `http://local.api.brickmmo.com:7777/map/images/city_id/1/square_id/${square.id}/direction/north`;
+                            let imageResponse = await fetch(imageUrl);
+                            let imageData = await imageResponse.json();
+                            
                             if (entityType && entityData) {
-                                updateDetailsPanel(entityType, entityData);
+                                updateDetailsPanel(entityType, entityData, entityXY, imageData.image);
                             } else {
-                                updateDetailsPanel("Location", { name: "Empty Land", set: "N/A", number: "N/A" });
+                                updateDetailsPanel("Location", { name: "Empty Land", set: "N/A", number: "N/A" }, null, imageData.image);
                             }
                         }
                     });
@@ -131,22 +136,25 @@ async function generateGrid() {
 }
 
 // Function to update the details panel
-function updateDetailsPanel(type, data) {
+function updateDetailsPanel(type, data, entityXY) {
     const detailsText = document.getElementById("details-text");
     const detailsImg = document.getElementById("details-image");
 
     let detailsHTML = `<h2>${type} Details</h2>`;
 
     if (type === "Building") {
+        // console.log(data);
         detailsHTML += `<p>🏛️ Name: ${data.name}</p>`;
         detailsHTML += `<p>📦 Set: ${data.set}</p>`;
         detailsHTML += `<p>🔢 Number: ${data.number}</p>`;
     } else if (type === "Road") {
-        detailsHTML += `<p>🛣️ Name: ${data.name}</p>`;
-        detailsHTML += `<p>📍 Location: X=${data.x}, Y=${data.y}</p>`;
+        console.log(data);
+        detailsHTML += `<p>🛣️ Name: ${data}</p>`;
+        detailsHTML += `<p>📍 Location: X=${entityXY.x}, Y=${entityXY.y}</p>`;
     } else if (type === "Track") {
-        detailsHTML += `<p>🚂 Name: ${data.name}</p>`;
-        detailsHTML += `<p>📍 Location: X=${data.x}, Y=${data.y}</p>`;
+        detailsHTML += `<p>🚂 Name: ${data}</p>`;
+        detailsHTML += `<p>📍 Location: X=${entityXY.x}, Y=${entityXY.y}</p>`;
+        console.log(entityXY);
     }
 
     detailsText.innerHTML = detailsHTML;
@@ -158,8 +166,10 @@ function updateDetailsPanel(type, data) {
     }
 }
 
+
+
 // Function to move in a direction
-function move(direction) {
+function move() {
     if (!currentLocation) {
         console.error("No location selected!");
         return;
@@ -207,6 +217,11 @@ function move(direction) {
     }
 }
 
+function turn(change)
+{
+    direction = change;
+}
+
 // Function to highlight current location and show an arrow for direction
 function updateHighlightedCell(cell, direction) {
     if (currentLocation) {
@@ -223,5 +238,4 @@ function updateHighlightedCell(cell, direction) {
     cell.innerHTML = `<span class="direction-arrow">${arrow}</span>`;
     cell.classList.add("current-location");
     currentLocation = cell;
-    currentDirection = direction;
 }
