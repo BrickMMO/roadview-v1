@@ -59,8 +59,8 @@ async function generateGrid() {
                     let entityType = null;
                     let entityData = null;
                     let isWalkable = false;
-                    let imageURL = null;
                     let entityXY = null;
+                    let image = null;
 
                     if (square.type === "water") {
                         color = colorMap["water"];
@@ -92,15 +92,6 @@ async function generateGrid() {
                     cell.dataset.walkable = isWalkable;
                     cell.dataset.square = JSON.stringify(square);
 
-                    // If there's a valid image, add it inside the cell
-                    if (imageURL) {
-                        let img = document.createElement("img");
-                        img.src = imageURL;
-                        img.alt = entityType;
-                        img.classList.add("grid-image");
-                        cell.appendChild(img);
-                    }
-
                     cell.addEventListener("click", async function () {
                         if (isWalkable) {
                             updateHighlightedCell(cell, "up"); // Default direction when clicked
@@ -110,9 +101,10 @@ async function generateGrid() {
                             let imageUrl = `http://local.api.brickmmo.com:7777/map/images/city_id/1/square_id/${square.id}/direction/north`;
                             let imageResponse = await fetch(imageUrl);
                             let imageData = await imageResponse.json();
-                            
+                            image = imageData.squares[0].image;
+                            console.log(imageData.squares[0].image);
                             if (entityType && entityData) {
-                                updateDetailsPanel(entityType, entityData, entityXY, imageData.image);
+                                updateDetailsPanel(entityType, entityData, entityXY, image);
                             } else {
                                 updateDetailsPanel("Location", { name: "Empty Land", set: "N/A", number: "N/A" }, null, imageData.image);
                             }
@@ -136,7 +128,7 @@ async function generateGrid() {
 }
 
 // Function to update the details panel
-function updateDetailsPanel(type, data, entityXY) {
+function updateDetailsPanel(type, data, entityXY, image) {
     const detailsText = document.getElementById("details-text");
     const detailsImg = document.getElementById("details-image");
 
@@ -158,8 +150,8 @@ function updateDetailsPanel(type, data, entityXY) {
     }
 
     detailsText.innerHTML = detailsHTML;
-    if (data.image) {
-        detailsImg.src = data.image;
+    if (image) {
+        detailsImg.src = image;
         detailsImg.style.display = "block";
     } else {
         detailsImg.style.display = "none";
