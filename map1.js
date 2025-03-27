@@ -61,6 +61,7 @@ async function generateGrid() {
                     let entityData = null;
                     let isWalkable = false;
                     let entityXY = null;
+                    let image = null;
                     currentSquare = square.id;
 
                     if (square.type === "water") {
@@ -92,13 +93,25 @@ async function generateGrid() {
                     cell.dataset.walkable = isWalkable;
                     cell.dataset.square = JSON.stringify(square);
 
-                    cell.addEventListener("click", async function () {
+                    cell.addEventListener("click", async function (event) {
                         if (isWalkable) {
                             updateHighlightedCell(cell, direction);
                             currentX = x;
                             currentY = y;
+
+                            // console.log(event.target.getAttribute('data-square'));
+                            let square = JSON.parse(event.target.getAttribute('data-square'));
+                            // console.log(square.id);
+                            let imageUrl = `http://local.api.brickmmo.com:7777/map/images/city_id/1/square_id/${square.id}/direction/${direction}`;
+                            let imageResponse = await fetch(imageUrl);
+                            let imageData = await imageResponse.json();
+                            // console.log(imageData);
+                            image = imageData.squares[0].image;
+                            // console.log(imageData.squares[0].image);
+
                             if (entityType && entityData) {
-                                updateDetailsPanel(entityType, entityData, entityXY);
+                                // updateDetailsPanel(entityType, entityData, entityXY);
+                                updateDetailsPanel(entityType, entityData, entityXY, image);
                             } else {
                                 updateDetailsPanel("Location", { name: "Empty Land", set: "N/A", number: "N/A" }, null);
                             }
@@ -122,8 +135,9 @@ async function generateGrid() {
 }
 
 // Function to update the details panel
-function updateDetailsPanel(type, data, entityXY) {
+function updateDetailsPanel(type, data, entityXY, image) {
     const detailsText = document.getElementById("details-text");
+    const detailsImg = document.getElementById("details-image");
 
     let detailsHTML = `<h2>${type} Details</h2>`;
 
@@ -140,7 +154,12 @@ function updateDetailsPanel(type, data, entityXY) {
     }
 
     detailsText.innerHTML = detailsHTML;
-    fetchImage();
+    if (image) {
+        detailsImg.src = image;
+        detailsImg.style.display = "block";
+    } else {
+        detailsImg.style.display = "none";
+    }
 }
 
 // Function to move in a direction
@@ -186,8 +205,17 @@ async function move() {
             entityData = squareData.track_names;
             entityXY = squareData;
         }
+        try {
+            let imageUrl = `http://local.api.brickmmo.com:7777/map/images/city_id/1/square_id/${squareData.id}/direction/${direction}`;
+            let imageResponse = await fetch(imageUrl);
+            let imageData = await imageResponse.json();
+            image = imageData.squares[0].image;
+        } catch (err) {
+            console.error("Error fetching image:", err);
+        }
+
         if (entityType && entityData) {
-            updateDetailsPanel(entityType, entityData, entityXY);
+            updateDetailsPanel(entityType, entityData, entityXY, image);
         } else {
             updateDetailsPanel("Location", { name: "Empty Land", set: "N/A", number: "N/A" }, null);
         }
@@ -211,16 +239,6 @@ function turn(change) {
         else if(direction === "south") direction = "west";
         else if(direction === "west") direction = "north";
     }
-    const compass = document.getElementById("compass-icon");
-    if (compass) {
-        let deg = 0;
-        if (direction === "east") deg = 90;
-        else if (direction === "south") deg = 180;
-        else if (direction === "west") deg = 270;
-        else if (direction === "north") deg = 0;
-        compass.style.transform = `rotate(${deg}deg)`;
-    }
-    
 // console.log(direction);
     // direction = change;
     updateHighlightedCell(currentLocation, direction);
@@ -247,28 +265,15 @@ function updateHighlightedCell(cell, direction) {
 
 async function fetchImage(){
     const detailsImg = document.getElementById("details-image");
-    const compassIcon = document.getElementById("compass-icon");
     let imageUrl = `http://local.api.brickmmo.com:7777/map/images/city_id/1/square_id/${currentSquare}/direction/${direction}`;
     let imageResponse = await fetch(imageUrl);
     let imageData = await imageResponse.json();
-    // console.log(imageData);
-    // console.log(imageData.squares.length);
-    if(imageData.squares.length >= 1){
     image = imageData.squares[0].image;
     if (image) {
-        // console.log(image);
         detailsImg.src = image;
         detailsImg.style.display = "block";
     } else {
         detailsImg.style.display = "none";
     }
-    }else detailsImg.style.display = "none";
-    if (compassIcon) {
-        let deg = 0;
-        if (direction === "east") deg = 90;
-        else if (direction === "south") deg = 180;
-        else if (direction === "west") deg = 270;
-        else if (direction === "north") deg = 0;
-        compassIcon.style.transform = `rotate(${deg}deg)`;
-    }
+
 }

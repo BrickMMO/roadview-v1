@@ -21,25 +21,26 @@
     <!-- Details Panel -->
     <div class="details-panel" id="details-panel">
         <h2>Click on a Building, Road, or Track</h2>
-        <p id="details-text"></p>
-        <img id="details-image" style="display:none;">
+        <p id="details-text"></p><p id="details-text"></p>
+        <!-- <img id="details-image" style="display:none;"> -->
+        <div id="details-wrapper" style="display: flex; align-items: center; gap: 20px;">
+            <img id="details-image" style="display:none; max-width: 300px; height: auto;">
+            <img id="compass-icon" src="campass.png" alt="Compass" style="display: block; width: 80px; height: 80px; transform: rotate(0deg); transition: transform 0.3s ease;">
+        </div>
+        
     </div>
     <!-- Movement Controls -->
+<!-- Movement Controls -->
 <div class="movement-controls">
     <div class="movement-row">
         <button onclick="move()">⬆</button>
     </div>
     <div class="movement-row">
-        <button onclick="turn('left')">⬅</button>
-        <button onclick="turn('right')">➡</button>
+        <button onclick="turn('west')" >↩</button>
+        <button onclick="turn('east')">↪</button>
     </div>
-    <div class="movement-row">
-        <!-- <button onclick="move('down')">⬇</button> -->
-    </div>
+    
 </div>
-
-
     <script src="map.js"></script>
-
 </body>
 </html>
