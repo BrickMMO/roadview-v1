@@ -174,7 +174,7 @@ async function move() {
         let entityData = null;
         currentSquare = squareData.id;
 
-        if (squareData.building_id && squareData.building_id !== "0" && squareData.building) {
+        if (squareData.building) {
             entityType = "Building";
             entityData = squareData.building;
         } else if (squareData.roads != 0) {
