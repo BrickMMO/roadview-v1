@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     generateGrid();
 });
 
-const apiUrl = "http://local.api.brickmmo.com:7777/map/square/city_id/1";
+const url = "https://api.brickmmo.com"
+const apiUrl = url+ "/map/square/city_id/1";
 
 let currentLocation = null;
 let currentX = 0;
@@ -85,6 +86,8 @@ async function generateGrid() {
                             isWalkable = true;
                         }
                     }
+                    
+                    console.log(currentSquare);
 
                     cell.style.backgroundColor = color;
                     cell.dataset.x = x;
@@ -97,6 +100,7 @@ async function generateGrid() {
                             updateHighlightedCell(cell, direction);
                             currentX = x;
                             currentY = y;
+                            currentSquare = square.id;
                             if (entityType && entityData) {
                                 updateDetailsPanel(entityType, entityData, entityXY);
                             } else {
@@ -126,7 +130,7 @@ function updateDetailsPanel(type, data, entityXY) {
     const detailsText = document.getElementById("details-text");
 
     let detailsHTML = `<h2>${type} Details</h2>`;
-
+    // console.log(currentSquare);
     if (type === "Building") {
         detailsHTML += `<p>🏛️ Name: ${data.name}</p>`;
         detailsHTML += `<p>📦 Set: ${data.set}</p>`;
@@ -186,6 +190,7 @@ async function move() {
             entityData = squareData.track_names;
             entityXY = squareData;
         }
+        // console.log(currentSquare);
         if (entityType && entityData) {
             updateDetailsPanel(entityType, entityData, entityXY);
         } else {
