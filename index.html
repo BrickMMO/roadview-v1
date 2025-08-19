@@ -14,37 +14,77 @@
     <!-- Map Container -->
     <div class="map-container">
         <div class="top-bar">
-            <button class="filter-button road">Road</button>
-            <button class="filter-button track">Track</button>
-            <button class="filter-button building">Buildings</button>
-            <button class="filter-button water">Water</button>
-        </div>        
+            <!-- <div class="legends">
+                <h3>Legend</h3>
+                <div class="legend_box">
+                    <div class="legend_icon road" id="legend_road"></div>
+                    <div class="legend_text">Road</div>
+                </div>
+                <div class="legend_box">
+                    <div class="legend_icon track" id="legend_track"></div>
+                    <div class="legend_text">Track</div>
+                </div>
+                <div class="legend_box">
+                    <div class="legend_icon building" id="legend_building"></div>
+                    <div class="legend_text">Building</div>
+                </div>
+                <div class="legend_box">
+                    <div class="legend_icon water" id="legend_water"></div>
+                    <div class="legend_text">Water</div>
+                </div>
+            </div> -->
+
+            <img id="compass-icon" src="campass.png" alt="Compass" style="display: block; width: 80px; height: 80px; transform: rotate(0deg); transition: transform 0.3s ease;">
+        </div>
         <table id="map-grid"></table>
     </div>
 
     <!-- Details Panel -->
     <div class="details-panel" id="details-panel">
-        <h2>Click on a Building, Road, or Track</h2>
+        <h2>Search For a Building or click on Map</h2>
+        <div class="search_bar">
+            <div class="search_area">
+                <svg class="location_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                </svg>
+                <input type="text" name="search" id="search" list="results" placeholder="Search...">
+                <button class="filter-button search" id="search_btn" >Search</button>
+                <datalist id="results">
+                </datalist>
+            </div>
+
+            <div class="starting_point_area" id="starting_point_area">
+                <svg class="location_svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" viewBox="0 0 24 24">
+                <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 14a4 4 0 1 1 4-4 4.004 4.004 0 0 1-4 4z"/>
+                </svg>
+                <input type="text" name="starting_point" id="starting_point" list="results2" placeholder="Your Starting Point">
+                <button class="filter-button starting_point" id="starting_point_btn" >Search</button>
+                <datalist id="results2">
+                </datalist>
+            </div>
+
+            <button class="filter-button direction" id="direction" >Get Directions!</button>
+
+        </div>  
         <p id="details-text"></p><p id="details-text"></p>
         <!-- <img id="details-image" style="display:none;"> -->
         <div id="details-wrapper" style="display: flex; align-items: center; gap: 20px;">
             <img id="details-image" style="display:none; max-width: 300px; height: auto;">
-            <img id="compass-icon" src="campass.png" alt="Compass" style="display: block; width: 80px; height: 80px; transform: rotate(0deg); transition: transform 0.3s ease;">
+        </div>
+
+    </div>
+
+    <!-- Movement Controls -->
+    <div class="movement-controls">
+        <div class="movement-row">
+            <button onclick="move()">⬆</button>
+        </div>
+        <div class="movement-row">
+            <button onclick="turn('west')" >↩</button>
+            <button onclick="turn('east')">↪</button>
         </div>
         
     </div>
-    <!-- Movement Controls -->
-<!-- Movement Controls -->
-<div class="movement-controls">
-    <div class="movement-row">
-        <button onclick="move()">⬆</button>
-    </div>
-    <div class="movement-row">
-        <button onclick="turn('west')" >↩</button>
-        <button onclick="turn('east')">↪</button>
-    </div>
-    
-</div>
     <script src="map.js"></script>
 </body>
 </html>
