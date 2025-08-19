@@ -11,6 +11,10 @@ body {
 .current-location {
     background-color: rgba(255, 0, 0, 0.979) !important;
 }
+
+.starting-location {
+    background-color: rgba(250, 250, 250, 0.979) !important;
+}
 .custom-compass {
     display: flex;
     align-items: center;
@@ -87,8 +91,9 @@ body {
 
 /* Map grid */
 .map-container {
+    position: relative;
     width: 60%;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -110,12 +115,90 @@ img {
     object-fit: cover;
 }
 /* Search and filter buttons */
-/* Style for the top-bar */
+
+/* Base font */
+.search_bar {
+  display: flex;
+  gap: 15px;
+  padding: 20px 30px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.search_area, .starting_point_area{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#search,
+#starting_point {
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  width: 200px;
+}
+
+#search:focus,
+#starting_point:focus {
+  border-color: #888;
+  box-shadow: 0 0 5px rgba(100, 100, 100, 0.2);
+}
+
+#search_btn {
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#search_btn:hover {
+  background-color: #cc0000;
+}
+
+#starting_point_btn {
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+}
+
+.starting_point_area {
+  display: none;
+}
+
+.location_svg{
+    align-self: center;
+}
+
+#compass-icon {
+  width: 60px;
+  height: 60px;
+  margin-left: 20px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
 .top-bar {
+    width: 100%;
     display: flex;
     gap: 10px;
-    justify-content: center;
-    margin-bottom: 10px;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
 /* General button styling */
@@ -128,6 +211,52 @@ img {
     color: white;
     transition: 0.3s;
     border-radius: 5px;
+}
+
+/* Legend */
+/* 🌈 Legend container styling */
+.legends {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 🧱 Each legend item */
+.legend_box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 🎯 Small square color icons */
+.legend_icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 🟥 Individual colors (matches your map tiles) */
+.legend_icon.road {
+  background-color: #d3d3d3;
+}
+.legend_icon.track {
+  background-color: #4d4d4d;
+}
+.legend_icon.building {
+  background-color: #1e3e67;
+}
+.legend_icon.water {
+  background-color: #4da6ff;
+}
+
+
+
+#compass-icon{
+    /* box-shadow: 2px 2px 10px #4d4d4d; */
 }
 
 /* Button colors matching map colors */
@@ -159,9 +288,9 @@ img {
 
 /* Center movement buttons on the right side */
 .movement-controls {
-    position: absolute;
+    position: fixed;
     right: 15%;  /* Adjust spacing from the right */
-    top: 75%;
+    top: 85%;
     transform: translateY(-50%);  /* Center vertically */
     display: flex;
     flex-direction: column;
@@ -189,3 +318,16 @@ img {
 .movement-controls button:hover {
     background-color: #ccc;
 }
+
+
+#no-results-msg{
+    color: red; 
+    display: none;
+}
+
+.path-cell, .direction {
+    color: #222;
+    background-color: #f1f14e !important;
+    opacity: 0.7;
+}
+
